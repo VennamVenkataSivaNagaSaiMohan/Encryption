@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Data Encryption</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f1f1f1;
+    }
+    
+    .content {
+      max-width: 500px;
+      margin: 20px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    h1,h3 {
+      text-align: center;
+      color: #333;
+    }
+
+    form {
+      margin-bottom: 20px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: #555;
+      font-weight: bold;
+    }
+    
+    textarea {
+      width: 300px;
+      height: 150px;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      resize: vertical;
+    }
+    
+    input[type="submit"] {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    .encrypted-data {
+      margin-top: 20px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      background-color: #f9f9f9;
+      color: #333;
+      overflow-wrap: break-word;
+    }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <h1>Data Encryption</h1><h3>{{edt}}</h3>
+  
+    <form id="encryptionForm">
+      <label for="data">Data to Encrypt/Decrypt:</label>
+      <textarea id="data" name="data" required></textarea>
+      
+      <label for="key">Encryption/Decryption Key:</label>
+      <input type="password" id="key" name="key" required>
+      <br><br>
+      <input type="submit" id="encryptButton" value="Encrypt">
+      <input type="submit" id="decryptButton" value="Decrypt">
+    </form>
+    
+    <label for="data">Encrypted/Decrypted Data:</label>
+    <div class="encrypted-data" id="resultData"></div>
+  </div>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+  <script>
+    function handleEncryption(event) {
+      event.preventDefault();
+      
+      var data = document.getElementById('data').value;
+      var key = document.getElementById('key').value;
+      
+      // Encrypt the data using AES encryption algorithm
+      var encryptedData = encryptAES(data, key);
+      
+      // Display the encrypted data
+      document.getElementById('resultData').textContent = encryptedData;
+    }
+    
+    function handleDecryption(event) {
+      event.preventDefault();
+      
+      var data = document.getElementById('data').value;
+      var key = document.getElementById('key').value;
+      
+      // Decrypt the data using AES encryption algorithm
+      var decryptedData = decryptAES(data, key);
+      
+      // Display the decrypted data
+      document.getElementById('resultData').textContent = decryptedData;
+    }
+    
+    function encryptAES(data, key) {
+      var encryptedData = CryptoJS.AES.encrypt(data, key).toString();
+      return encryptedData;
+    }
+    
+    function decryptAES(data, key) {
+      var decryptedData = CryptoJS.AES.decrypt(data, key).toString(CryptoJS.enc.Utf8);
+      return decryptedData;
+    }
+    
+    var encryptButton = document.getElementById('encryptButton');
+    encryptButton.addEventListener('click', handleEncryption);
+    
+    var decryptButton = document.getElementById('decryptButton');
+    decryptButton.addEventListener('click', handleDecryption);
+  </script>
+</body>
+</html>
